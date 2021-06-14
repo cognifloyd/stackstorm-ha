@@ -235,6 +235,7 @@ st2web:
       cpu: "50m"
     limits:
       memory: "100Mi"
+  annotations: {}
   # TODO: Add Ingress setting as a way to expose service to public (#6).
   # ingress:
   service:
@@ -263,6 +264,7 @@ st2auth:
     requests:
       memory: "85Mi"
       cpu: "50m"
+  annotations: {}
   # Additional advanced settings to control pod/deployment placement
   nodeSelector: {}
   tolerations: []
@@ -277,6 +279,7 @@ st2api:
     requests:
       memory: "150Mi"
       cpu: "25m"
+  annotations: {}
   # Additional advanced settings to control pod/deployment placement
   nodeSelector: {}
   tolerations: []
@@ -291,6 +294,7 @@ st2stream:
     requests:
       memory: "100Mi"
       cpu: "50m"
+  annotations: {}
   # Additional advanced settings to control pod/deployment placement
   nodeSelector: {}
   tolerations: []
@@ -305,6 +309,7 @@ st2rulesengine:
     requests:
       memory: "75Mi"
       cpu: "25m"
+  annotations: {}
   # Additional advanced settings to control pod/deployment placement
   nodeSelector: {}
   tolerations: []
@@ -318,6 +323,7 @@ st2timersengine:
     requests:
       memory: "75Mi"
       cpu: "10m"
+  annotations: {}
   # Additional advanced settings to control pod/deployment placement
   nodeSelector: {}
   tolerations: []
@@ -332,6 +338,7 @@ st2workflowengine:
     requests:
       memory: "200Mi"
       cpu: "100m"
+  annotations: {}
   # Additional advanced settings to control pod/deployment placement
   nodeSelector: {}
   tolerations: []
@@ -346,6 +353,7 @@ st2scheduler:
     requests:
       memory: "75Mi"
       cpu: "50m"
+  annotations: {}
   # Additional advanced settings to control pod/deployment placement
   nodeSelector: {}
   tolerations: []
@@ -360,6 +368,7 @@ st2notifier:
     requests:
       memory: "75Mi"
       cpu: "50m"
+  annotations: {}
   # Additional advanced settings to control pod/deployment placement
   nodeSelector: {}
   tolerations: []
@@ -392,6 +401,11 @@ st2actionrunner:
   serviceAccount:
     attach: false
 
+# The st2client deployment/pod simplifies ad-hoc administration.
+# st2client is a special purpose actionrunner pod, but you can customize the annotations separately.
+st2client:
+  annotations: {}
+
 # https://docs.stackstorm.com/reference/ha.html#st2garbagecollector
 # Optional service that cleans up old executions and other operations data based on setup configurations.
 # By default this process does nothing and needs to be setup in st2.conf to perform any work.
@@ -402,6 +416,7 @@ st2garbagecollector:
     requests:
       memory: "80Mi"
       cpu: "10m"
+  annotations: {}
   # Additional advanced settings to control pod/deployment placement
   nodeSelector: {}
   tolerations: []
@@ -436,12 +451,19 @@ st2chatops:
     requests:
       memory: "50Mi"
       cpu: "5m"
+  annotations: {}
   # Additional advanced settings to control pod/deployment placement
   nodeSelector: {}
   tolerations: []
   affinity: {}
   serviceAccount:
     attach: false
+
+##
+## Various batch jobs (apply-rbac-definitions, apikey-load, key-load, register-content)
+##
+jobs:
+  annotations: {}
 
 ##
 ## MongoDB HA configuration (3rd party chart dependency)
