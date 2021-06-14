@@ -74,6 +74,7 @@ spec:
           configMap:
             name: {{ .Release.Name }}-st2-rbac-mappings
       restartPolicy: OnFailure
+{{ include "advanced-pod-placement" .Values.jobs | indent 6 }}
 
 {{- end }}
 ---
@@ -182,6 +183,7 @@ spec:
           secret:
             secretName: {{ .Release.Name }}-st2-apikeys
       restartPolicy: OnFailure
+{{ include "advanced-pod-placement" .Values.jobs | indent 6 }}
 
 ---
 apiVersion: batch/v1
@@ -289,6 +291,7 @@ spec:
           secret:
             secretName: {{ .Release.Name }}-st2-kv
       restartPolicy: OnFailure
+{{ include "advanced-pod-placement" .Values.jobs | indent 6 }}
 
 ---
 apiVersion: batch/v1
@@ -371,3 +374,4 @@ spec:
             name: {{ .Release.Name }}-st2-pack-configs
  {{- include "packs-volumes" $ | indent 8}}
       restartPolicy: OnFailure
+{{ include "advanced-pod-placement" .Values.jobs | indent 6 }}

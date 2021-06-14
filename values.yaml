@@ -447,6 +447,15 @@ st2chatops:
     attach: false
 
 ##
+## Various batch jobs (apply-rbac-definitions, apikey-load, key-load, register-content)
+##
+jobs:
+  # Additional advanced settings to control pod/deployment placement
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+##
 ## MongoDB HA configuration (3rd party chart dependency)
 ##
 ## For values.yaml reference:
