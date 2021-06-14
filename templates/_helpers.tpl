@@ -162,3 +162,19 @@ Create the name of the stackstorm-ha service account to use
     {{- end }}
   {{- end }}
 {{- end -}}
+
+# Reduce duplication for advanced pod/deployment placement (nodeSelector, affinity, tolerations)
+{{- define "advanced-pod-placement" -}}
+  {{- with .nodeSelector }}
+nodeSelector:
+{{ toYaml . | indent 2 }}
+  {{- end }}
+  {{- with .affinity }}
+affinity:
+{{ toYaml . | indent 2 }}
+  {{- end }}
+{{- with .tolerations }}
+tolerations:
+{{ toYaml . | indent 2 }}
+  {{- end }}
+{{- end -}}
