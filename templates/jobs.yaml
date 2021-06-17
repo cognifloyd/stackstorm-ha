@@ -331,9 +331,7 @@ spec:
       {{- end }}
       initContainers:
       {{ include "init-containers-wait-for-db" . | indent 6 }}
-      {{- if $.Values.st2.packs.images -}}
- {{- include "packs-initContainers" . | indent 6 }}
-      {{ end }}
+      {{ include "packs-initContainers" . | indent 6 }}
       containers:
       - name: st2-register-content
         image: '{{ template "imageRepository" . }}/st2actionrunner:{{ .Chart.AppVersion }}'
