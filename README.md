@@ -183,14 +183,15 @@ As any other Helm dependency, it's possible to further configure it for specific
 ## Install custom st2 packs in the cluster
 There are two ways to install st2 packs in the k8s cluster.
 
-1. The `st2packs` method is the default. This method will work for practiaclly all clusters, but `st2 pack install` does not work. The packs are injected via `st2packs` images instead.
+1. The `st2packs` method is the default. This method will work for practically all clusters, but `st2 pack install` does not work. The packs are injected via `st2packs` images instead.
 
 2. The other method defines shared/writable `volumes`. This method allows `st2 pack install` to work, but requires a persistent storage backend to be available in the cluster. This chart will not configure a storage backend for you.
 
 ### Method 1: st2packs images (the default)
 The `st2packs` method is the default. `st2 pack install` does not work because this chart uses read-only `emptyDir` volumes for `/opt/stackstorm/{packs,virtualenvs}`.
 Instead, you need to bake the packs into a custom docker image, push it to a private or public docker registry and reference that image in Helm values.
-Helm chart will take it from there, sharing `/opt/stackstorm/{packs,virtualenvs}` via a sidecar container in pods which require access to the packs (the sidcar is the only place where the volumes are writable).
+Helm chart will take it from there, sharing `/opt/stackstorm/{packs,virtualenvs}` via a sidecar container in pods which require access to the packs
+(the sidecar is the only place where the volumes are writable).
 
 #### Building st2packs image
 For your convenience, we created a new `st2-pack-install <pack1> <pack2> <pack3>` utility and included it in a container that will help to install custom packs during the Docker build process without relying on live DB and MQ connection.
@@ -296,7 +297,7 @@ possibly using APIs like:
 You will have to repeat the process each time the packs code is modified.
 
 #### Caveat: System packs
-After Helm installs, upgrades, or rollsback a Stackstorm install, it runs an `st2-register-content` batch job.
+After Helm installs, upgrades, or rolls back a StackStorm install, it runs an `st2-register-content` batch job.
 This job will copy and register system packs. If you have made any changes (like disabling default aliases), those changes will be overwritten.
 
 NOTE: Upgrades will not remove files (such as a renamed or removed action) if they were removed in newer StackStorm versions.
