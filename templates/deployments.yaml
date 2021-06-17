@@ -184,6 +184,9 @@ spec:
           readOnly: true
         {{- end }}
 {{ include "packs-volume-mounts" . | indent 8 }}
+        {{- if .Values.st2.packs.volumes.enabled }}
+{{- include "pack-configs-volume-mount" . | indent 8}}
+        {{- end }}
         resources:
 {{ toYaml .Values.st2api.resources | indent 10 }}
     {{- if .Values.st2api.serviceAccount.attach }}
@@ -202,6 +205,9 @@ spec:
           configMap:
             name: {{ .Release.Name }}-st2-config
 {{ include "packs-volumes" . | indent 8 }}
+        {{- if .Values.st2.packs.volumes.enabled }}
+{{- include "pack-configs-volume" . | indent 8}}
+        {{- end }}
     {{- with .Values.st2api.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -1021,6 +1027,9 @@ spec:
           readOnly: true
         {{- end }}
 {{ include "packs-volume-mounts" . | indent 8 }}
+        {{- if .Values.st2.packs.volumes.enabled }}
+{{- include "pack-configs-volume-mount" . | indent 8}}
+        {{- end }}
         resources:
 {{ toYaml .Values.st2actionrunner.resources | indent 10 }}
     {{- if .Values.st2actionrunner.serviceAccount.attach }}
@@ -1047,6 +1056,9 @@ spec:
               # 0400 file permission
               mode: 256
 {{ include "packs-volumes" . | indent 8 }}
+        {{- if .Values.st2.packs.volumes.enabled }}
+{{- include "pack-configs-volume" . | indent 8}}
+        {{- end }}
     {{- with .Values.st2actionrunner.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
