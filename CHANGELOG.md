@@ -9,6 +9,7 @@
 * Add image.tag overrides for all deployments. (#200) (by @cognifloyd)
 * If your k8s cluster admin requires custom annotations (eg: to indicate mongo or rabbitmq usage), you can now add those to each set of pods. (#195) (by @cognifloyd)
 * Add optional hubot-scripts volume to st2chatops pod. To add this, define `st2chatops.hubotScriptsVolume`. (#207) (by @cognifloyd)
+* New feature: Shared packs volumes `st2.packs.volumes` -- Instead of using `st2packs` images to install packs, allow using cluster-specific persistent volumes to store packs, virtualenvs, and (optionally) configs. This enables using `st2 pack install`. (#199) (by @cognifloyd)
 
 ## v0.60.0
 * Switch st2 version to `v3.5dev` as a new latest development version (#187)
