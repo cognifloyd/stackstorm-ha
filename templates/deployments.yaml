@@ -192,7 +192,7 @@ spec:
           readOnly: true
         {{- end }}
 {{ include "packs-volume-mounts" . | indent 8 }}
-        {{- if and .Values.st2.packs.volumes.enabled }}
+        {{- if .Values.st2.packs.volumes.enabled }}
 {{- include "pack-configs-volume-mount" . | indent 8}}
         {{- end }}
         resources:
@@ -213,7 +213,7 @@ spec:
           configMap:
             name: {{ .Release.Name }}-st2-config
 {{ include "packs-volumes" . | indent 8 }}
-        {{- if and .Values.st2.packs.volumes.enabled }}
+        {{- if .Values.st2.packs.volumes.enabled }}
 {{- include "pack-configs-volume" . | indent 8}}
         {{- end }}
     {{- with .Values.st2api.nodeSelector }}
@@ -1035,7 +1035,7 @@ spec:
           readOnly: true
         {{- end }}
 {{ include "packs-volume-mounts" . | indent 8 }}
-        {{- if and .Values.st2.packs.volumes.enabled }}
+        {{- if .Values.st2.packs.volumes.enabled }}
 {{- include "pack-configs-volume-mount" . | indent 8}}
         {{- end }}
         resources:
@@ -1064,7 +1064,7 @@ spec:
               # 0400 file permission
               mode: 256
 {{ include "packs-volumes" . | indent 8 }}
-        {{- if and .Values.st2.packs.volumes.enabled }}
+        {{- if .Values.st2.packs.volumes.enabled }}
 {{- include "pack-configs-volume" . | indent 8}}
         {{- end }}
     {{- with .Values.st2actionrunner.nodeSelector }}
