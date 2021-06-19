@@ -36,6 +36,12 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/configmaps_st2-conf.yaml") . | sha256sum }}
         checksum/auth: {{ include (print $.Template.BasePath "/secrets_st2auth.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -146,6 +152,12 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/configmaps_st2-conf.yaml") . | sha256sum }}
         checksum/datastore-key: {{ include (print $.Template.BasePath "/secrets_datastore_crypto_key.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -256,6 +268,12 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmaps_st2-conf.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -334,6 +352,12 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmaps_st2web.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -432,6 +456,12 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmaps_st2-conf.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -519,6 +549,12 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmaps_st2-conf.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -598,6 +634,12 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/configmaps_st2-conf.yaml") . | sha256sum }}
         checksum/datastore-key: {{ include (print $.Template.BasePath "/secrets_datastore_crypto_key.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -689,6 +731,12 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/configmaps_st2-conf.yaml") . | sha256sum }}
         checksum/datastore-key: {{ include (print $.Template.BasePath "/secrets_datastore_crypto_key.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -780,6 +828,12 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmaps_st2-conf.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -866,6 +920,12 @@ spec:
 {{ toYaml .annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if $.Values.dnsPolicy }}
+      dnsPolicy: {{ $.Values.dnsPolicy }}
+      {{- end }}
+      {{- if $.Values.dnsConfig }}
+      dnsConfig: {{- toYaml $.Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if $.Values.image.pullSecret }}
       - name: {{ $.Values.image.pullSecret }}
@@ -1000,6 +1060,12 @@ spec:
       hostAliases:
 {{ toYaml .Values.st2actionrunner.hostAliases | indent 8 }}
       {{- end }}
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -1119,6 +1185,12 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmaps_st2-conf.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -1200,6 +1272,12 @@ spec:
         checksum/ssh: {{ include (print $.Template.BasePath "/secrets_ssh.yaml") . | sha256sum }}
         checksum/datastore-key: {{ include (print $.Template.BasePath "/secrets_datastore_crypto_key.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.st2.packs.images }}
 {{- include "packs-pullSecrets" . | indent 6 }}
@@ -1368,6 +1446,12 @@ spec:
       annotations:
         checksum/chatops: {{ include (print $.Template.BasePath "/secrets_st2chatops.yaml") . | sha256sum }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       {{- if .Values.image.pullSecret }}
       imagePullSecrets:
       - name: {{ .Values.image.pullSecret }}
