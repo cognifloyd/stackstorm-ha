@@ -1,5 +1,5 @@
 {{- range tuple "st2auth" "st2api" "st2stream" "st2web" "st2rulesengine" "st2timersengine" "st2workflowengine" "st2scheduler" "st2notifier" "st2sensorcontainer" "st2actionrunner" "st2garbagecollector" "st2client" "st2chatops" -}}
-  {{- if index $.Values . "postStartScript" -}}
+  {{- if or (index $.Values . "postStartScript") (eq . "st2actionrunner") (eq . "st2client") -}}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -21,6 +21,9 @@ data:
   # see: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
   post-start.sh: |
     #!/bin/bash
+    {{- if or (eq . "st2actionrunner") (eq . "st2client") }}
+    chown -R stanley:stanley /home/stanley/.ssh/
+    {{- end }}
     {{- index $.Values . "postStartScript" | nindent 4 }}
 
   {{- end -}}
