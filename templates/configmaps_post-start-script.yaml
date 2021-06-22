@@ -1,0 +1,27 @@
+{{- range tuple "st2auth" "st2api" "st2stream" "st2web" "st2rulesengine" "st2timersengine" "st2workflowengine" "st2scheduler" "st2notifier" "st2sensorcontainer" "st2actionrunner" "st2garbagecollector" "st2client" "st2chatops" -}}
+  {{- if index $.Values . "postStartScript" -}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+metadata:
+  name: {{ $.Release.Name }}-{{ . }}-post-start-script
+  annotations:
+    description: Custom postStart lifecycle event handler script for {{ . }}
+  labels:
+    app: st2
+    tier: backend
+    vendor: stackstorm
+    chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
+data:
+  # k8s calls this script in parallel with starting {{ . }} (ie the same time as ENTRYPOINT)
+  # The pod will not be marked as "running" until this script completes successfully.
+  # see: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+  post-start.sh: |
+    #!/bin/bash
+    {{- index $.Values . "postStartScript" | nindent 4 }}
+
+  {{- end -}}
+{{- end -}}
