@@ -392,6 +392,10 @@ st2actionrunner:
   serviceAccount:
     attach: false
 
+st2sensorcontainer:
+  # replicas is only used if st2.packs.sensors is empty
+  replicas: 2
+
 # https://docs.stackstorm.com/reference/ha.html#st2garbagecollector
 # Optional service that cleans up old executions and other operations data based on setup configurations.
 # By default this process does nothing and needs to be setup in st2.conf to perform any work.
