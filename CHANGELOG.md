@@ -13,6 +13,7 @@
 * Add advanced pod placment (nodeSelector, affinity, tolerations) to specs for batch Jobs pods. Also move the advanced pod placement into a helper to reduce duplication. (#193) (by @cognifloyd)
 * BREAKING CHANGE: Move secrets.st2.* values into st2.* (#203) (by @cognifloyd)
 * Auto-generate password and ssh_key secrets. (#203) (by @cognifloyd)
+* New feature: Shared packs volumes `st2.packs.volumes` -- Instead of using `st2packs` images to install packs, allow using cluster-specific persistent volumes to store packs, virtualenvs, and (optionally) configs. This enables using `st2 pack install`. (#199) (by @cognifloyd)
 
 ## v0.60.0
 * Switch st2 version to `v3.5dev` as a new latest development version (#187)

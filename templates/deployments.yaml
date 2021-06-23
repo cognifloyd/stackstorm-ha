@@ -2,6 +2,14 @@
 {{- if and .Values.st2.packs.image }}
 {{- fail "Value st2.packs.image was renamed to st2.packs.images and is now a list of images" }}
 {{- end }}
+{{- if .Values.st2.packs.volumes.enabled }}
+  {{- if .Values.st2.packs.images }}
+{{- fail "st2.packs.images is not compatible with st2.packs.volumes.enabled. Please use only one method for setting up packs directories." }}
+  {{- end }}
+  {{- if not (and .Values.st2.packs.volumes.packs .Values.st2.packs.volumes.virtualenvs) }}
+{{- fail "Volume definition(s) missing! When st2.packs.volumes.enabled, you must define volumes for both packs and virtualenvs." }}
+  {{- end }}
+{{- end }}
 
 ---
 apiVersion: apps/v1
@@ -178,13 +186,9 @@ spec:
           mountPath: /etc/st2/keys
           readOnly: true
         {{- end }}
-        {{- if .Values.st2.packs.images }}
-        - name: st2-packs-vol
-          mountPath: /opt/stackstorm/packs
-          readOnly: true
-        - name: st2-virtualenvs-vol
-          mountPath: /opt/stackstorm/virtualenvs
-          readOnly: true
+{{ include "packs-volume-mounts" . | indent 8 }}
+        {{- if .Values.st2.packs.volumes.enabled }}
+{{ include "pack-configs-volume-mount" . | indent 8}}
         {{- end }}
         resources:
 {{ toYaml .Values.st2api.resources | indent 10 }}
@@ -201,8 +205,9 @@ spec:
               path: datastore_key.json
         {{- end }}
 {{ include "st2-config-volume" . | indent 8 }}
-        {{- if .Values.st2.packs.images }}
-{{- include "packs-volumes" . | indent 8 }}
+{{ include "packs-volumes" . | indent 8 }}
+        {{- if .Values.st2.packs.volumes.enabled }}
+{{- include "pack-configs-volume" . | indent 8}}
         {{- end }}
 {{ include "advanced-pod-placement" .Values.st2api | indent 6 }}
 
@@ -838,14 +843,7 @@ spec:
             name: {{ $.Release.Name }}-st2-urls
         volumeMounts:
 {{ include "st2-config-volume-mounts" . | indent 8 }}
-        {{- if $.Values.st2.packs.images }}
-        - name: st2-packs-vol
-          mountPath: /opt/stackstorm/packs
-          readOnly: true
-        - name: st2-virtualenvs-vol
-          mountPath: /opt/stackstorm/virtualenvs
-          readOnly: true
-        {{- end }}
+{{ include "packs-volume-mounts" $ | indent 8 }}
         {{- if $.Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
@@ -866,9 +864,7 @@ spec:
               path: datastore_key.json
         {{- end }}
 {{ include "st2-config-volume" $ | indent 8 }}
-        {{- if $.Values.st2.packs.images }}
-{{- include "packs-volumes" $ | indent 8 }}
-        {{- end }}
+{{ include "packs-volumes" $ | indent 8 }}
 {{ include "advanced-pod-placement" . | indent 6 }}
 {{- end }}
 
@@ -953,13 +949,9 @@ spec:
           mountPath: /etc/st2/keys
           readOnly: true
         {{- end }}
-        {{- if .Values.st2.packs.images }}
-        - name: st2-packs-vol
-          mountPath: /opt/stackstorm/packs
-          readOnly: true
-        - name: st2-virtualenvs-vol
-          mountPath: /opt/stackstorm/virtualenvs
-          readOnly: true
+{{ include "packs-volume-mounts" . | indent 8 }}
+        {{- if .Values.st2.packs.volumes.enabled }}
+{{ include "pack-configs-volume-mount" . | indent 8}}
         {{- end }}
         resources:
 {{ toYaml .Values.st2actionrunner.resources | indent 10 }}
@@ -984,8 +976,9 @@ spec:
               path: stanley_rsa
               # 0400 file permission
               mode: 256
-        {{- if .Values.st2.packs.images }}
-{{- include "packs-volumes" . | indent 8 }}
+{{ include "packs-volumes" . | indent 8 }}
+        {{- if .Values.st2.packs.volumes.enabled }}
+{{- include "pack-configs-volume" . | indent 8}}
         {{- end }}
 {{ include "advanced-pod-placement" .Values.st2actionrunner | indent 6 }}
 
@@ -1164,8 +1157,6 @@ spec:
         - name: st2-rbac-mappings-vol
           mountPath: /opt/stackstorm/rbac/mappings/
         {{- end }} 
-        - name: st2-pack-configs-vol
-          mountPath: /opt/stackstorm/configs/
         - name: st2client-config-vol
           mountPath: /root/.st2/
         - name: st2-ssh-key-vol
@@ -1176,14 +1167,8 @@ spec:
           mountPath: /etc/st2/keys
           readOnly: true
         {{- end }}
-        {{- if .Values.st2.packs.images }}
-        - name: st2-packs-vol
-          mountPath: /opt/stackstorm/packs
-          readOnly: true
-        - name: st2-virtualenvs-vol
-          mountPath: /opt/stackstorm/virtualenvs
-          readOnly: true
-        {{- end }}
+{{ include "packs-volume-mounts" . | indent 8 }}
+{{ include "pack-configs-volume-mount" . | indent 8}}
         command:
           - 'bash'
           - '-ec'
@@ -1213,9 +1198,6 @@ spec:
           configMap:
             name: {{ .Release.Name }}-st2-rbac-mappings
         {{- end }}
-        - name: st2-pack-configs-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-pack-configs
         - name: st2client-config-vol
           emptyDir:
             medium: Memory
@@ -1227,9 +1209,8 @@ spec:
               path: stanley_rsa
               # 0400 file permission
               mode: 256
-        {{- if .Values.st2.packs.images }}
-{{- include "packs-volumes" . | indent 8 }}
-        {{- end }}
+{{ include "packs-volumes" . | indent 8 }}
+{{ include "pack-configs-volume" . | indent 8}}
 
 {{ if .Values.st2chatops.enabled -}}
 ---
