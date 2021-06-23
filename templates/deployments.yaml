@@ -102,18 +102,7 @@ spec:
         - name: htpasswd-vol
           emptyDir:
             medium: Memory
-    {{- with .Values.st2auth.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2auth.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2auth.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2auth | indent 6 }}
 
 ---
 apiVersion: apps/v1
@@ -215,18 +204,7 @@ spec:
         {{- if .Values.st2.packs.images }}
 {{- include "packs-volumes" . | indent 8 }}
         {{- end }}
-    {{- with .Values.st2api.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2api.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2api.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2api | indent 6 }}
 
 ---
 apiVersion: apps/v1
@@ -297,18 +275,7 @@ spec:
     {{- end }}
       volumes:
 {{ include "st2-config-volume" . | indent 8 }}
-    {{- with .Values.st2stream.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2stream.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2stream.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2stream | indent 6 }}
 
 ---
 apiVersion: apps/v1
@@ -402,18 +369,7 @@ spec:
     {{- else }}
       volumes: []
     {{- end }}
-    {{- with .Values.st2web.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2web.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2web.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2web | indent 6 }}
 
 ---
 apiVersion: apps/v1
@@ -490,18 +446,7 @@ spec:
             - key: datastore_crypto_key
               path: datastore_key.json
         {{- end }}
-    {{- with .Values.st2rulesengine.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2rulesengine.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2rulesengine.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2rulesengine | indent 6 }}
 
 ---
 apiVersion: apps/v1
@@ -571,18 +516,7 @@ spec:
     {{- end }}
       volumes:
 {{ include "st2-config-volume" . | indent 8 }}
-    {{- with .Values.st2timersengine.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2timersengine.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2timersengine.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2timersengine | indent 6 }}
 
 ---
 apiVersion: apps/v1
@@ -665,18 +599,7 @@ spec:
             - key: datastore_crypto_key
               path: datastore_key.json
         {{- end }}
-    {{- with .Values.st2workflowengine.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2workflowengine.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2workflowengine.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2workflowengine | indent 6 }}
 
 ---
 apiVersion: apps/v1
@@ -758,18 +681,7 @@ spec:
               path: datastore_key.json
         {{- end }}
 {{ include "st2-config-volume" . | indent 8 }}
-    {{- with .Values.st2scheduler.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2scheduler.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2scheduler.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2scheduler | indent 6 }}
 
 ---
 apiVersion: apps/v1
@@ -838,18 +750,7 @@ spec:
     {{- end }}
       volumes:
 {{ include "st2-config-volume" . | indent 8 }}
-    {{- with .Values.st2notifier.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2notifier.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2notifier.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2notifier | indent 6 }}
 
 {{- range .Values.st2.packs.sensors }}
 ---
@@ -968,18 +869,7 @@ spec:
         {{- if $.Values.st2.packs.images }}
 {{- include "packs-volumes" $ | indent 8 }}
         {{- end }}
-    {{- with .nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" . | indent 6 }}
 {{- end }}
 
 ---
@@ -1097,18 +987,7 @@ spec:
         {{- if .Values.st2.packs.images }}
 {{- include "packs-volumes" . | indent 8 }}
         {{- end }}
-    {{- with .Values.st2actionrunner.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2actionrunner.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2actionrunner.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2actionrunner | indent 6 }}
 
 ---
 apiVersion: apps/v1
@@ -1177,18 +1056,7 @@ spec:
     {{- end }}
       volumes:
 {{ include "st2-config-volume" . | indent 8 }}
-    {{- with .Values.st2garbagecollector.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2garbagecollector.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2garbagecollector.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2garbagecollector | indent 6 }}
 
 ---
 apiVersion: apps/v1
@@ -1448,16 +1316,5 @@ spec:
     {{- if .Values.st2chatops.serviceAccount.attach }}
         serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
-    {{- with .Values.st2chatops.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2chatops.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.st2chatops.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ include "advanced-pod-placement" .Values.st2chatops | indent 6 }}
 {{- end }}
