@@ -39,6 +39,12 @@ spec:
 {{ toYaml .Values.st2auth.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -152,6 +158,12 @@ spec:
 {{ toYaml .Values.st2api.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -265,6 +277,12 @@ spec:
 {{ toYaml .Values.st2stream.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -346,6 +364,12 @@ spec:
 {{ toYaml .Values.st2web.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -447,6 +471,12 @@ spec:
 {{ toYaml .Values.st2rulesengine.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -537,6 +567,12 @@ spec:
 {{ toYaml .Values.st2timersengine.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -619,6 +655,12 @@ spec:
 {{ toYaml .Values.st2workflowengine.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -713,6 +755,12 @@ spec:
 {{ toYaml .Values.st2scheduler.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -807,6 +855,12 @@ spec:
 {{ toYaml .Values.st2notifier.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -893,6 +947,12 @@ spec:
 {{ toYaml .annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if $.Values.dnsPolicy }}
+      dnsPolicy: {{ $.Values.dnsPolicy }}
+      {{- end }}
+      {{- if $.Values.dnsConfig }}
+      dnsConfig: {{- toYaml $.Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if $.Values.image.pullSecret }}
       - name: {{ $.Values.image.pullSecret }}
@@ -1027,6 +1087,12 @@ spec:
       hostAliases:
 {{ toYaml .Values.st2actionrunner.hostAliases | indent 8 }}
       {{- end }}
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -1149,6 +1215,12 @@ spec:
 {{ toYaml .Values.st2garbagecollector.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.image.pullSecret }}
       - name: {{ .Values.image.pullSecret }}
@@ -1233,6 +1305,12 @@ spec:
 {{ toYaml .Values.st2client.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       imagePullSecrets:
       {{- if .Values.st2.packs.images }}
 {{- include "packs-pullSecrets" . | indent 6 }}
@@ -1404,6 +1482,12 @@ spec:
 {{ toYaml .Values.st2chatops.annotations | indent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig: {{- toYaml .Values.dnsConfig | nindent 6 }}
+      {{- end }}
       {{- if .Values.image.pullSecret }}
       imagePullSecrets:
       - name: {{ .Values.image.pullSecret }}
