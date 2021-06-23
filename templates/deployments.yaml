@@ -87,12 +87,7 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         - name: htpasswd-vol
           mountPath: /etc/st2/htpasswd
           subPath: htpasswd
@@ -103,9 +98,7 @@ spec:
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
       volumes:
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
         - name: htpasswd-vol
           emptyDir:
             medium: Memory
@@ -190,12 +183,7 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         {{- if .Values.secrets.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
@@ -223,9 +211,7 @@ spec:
             - key: datastore_crypto_key
               path: datastore_key.json
         {{- end }}
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
         {{- if .Values.st2.packs.images }}
 {{- include "packs-volumes" . | indent 8 }}
         {{- end }}
@@ -303,21 +289,14 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         resources:
 {{ toYaml .Values.st2stream.resources | indent 10 }}
     {{- if .Values.st2stream.serviceAccount.attach }}
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
       volumes:
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
     {{- with .Values.st2stream.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -495,21 +474,14 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         resources:
 {{ toYaml .Values.st2rulesengine.resources | indent 10 }}
     {{- if .Values.st2rulesengine.serviceAccount.attach }}
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
       volumes:
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
         {{- if .Values.secrets.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           secret:
@@ -591,21 +563,14 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         resources:
 {{ toYaml .Values.st2timersengine.resources | indent 10 }}
     {{- if .Values.st2timersengine.serviceAccount.attach }}
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
       volumes:
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
     {{- with .Values.st2timersengine.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -679,12 +644,7 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         {{- if .Values.secrets.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
@@ -696,9 +656,7 @@ spec:
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
       volumes:
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
         {{- if .Values.secrets.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           secret:
@@ -779,12 +737,7 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         {{- if .Values.secrets.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
@@ -804,9 +757,7 @@ spec:
             - key: datastore_crypto_key
               path: datastore_key.json
         {{- end }}
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
     {{- with .Values.st2scheduler.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -879,21 +830,14 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         resources:
 {{ toYaml .Values.st2notifier.resources | indent 10 }}
     {{- if .Values.st2notifier.serviceAccount.attach }}
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
       volumes:
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
     {{- with .Values.st2notifier.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -992,12 +936,7 @@ spec:
         - configMapRef:
             name: {{ $.Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         {{- if $.Values.st2.packs.images }}
         - name: st2-packs-vol
           mountPath: /opt/stackstorm/packs
@@ -1025,9 +964,7 @@ spec:
             - key: datastore_crypto_key
               path: datastore_key.json
         {{- end }}
-        - name: st2-config-vol
-          configMap:
-            name: {{ $.Release.Name }}-st2-config
+{{ include "st2-config-volume" $ | indent 8 }}
         {{- if $.Values.st2.packs.images }}
 {{- include "packs-volumes" $ | indent 8 }}
         {{- end }}
@@ -1117,12 +1054,7 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         - name: st2-ssh-key-vol
           mountPath: /home/stanley/.ssh/
           readOnly: true
@@ -1153,9 +1085,7 @@ spec:
             - key: datastore_crypto_key
               path: datastore_key.json
         {{- end }}
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
         - name: st2-ssh-key-vol
           secret:
             secretName: {{ .Release.Name }}-st2-ssh
@@ -1239,21 +1169,14 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         resources:
 {{ toYaml .Values.st2garbagecollector.resources | indent 10 }}
     {{- if .Values.st2garbagecollector.serviceAccount.attach }}
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
       volumes:
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
     {{- with .Values.st2garbagecollector.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -1364,12 +1287,7 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.docker.conf
-          subPath: st2.docker.conf
-        - name: st2-config-vol
-          mountPath: /etc/st2/st2.user.conf
-          subPath: st2.user.conf
+{{ include "st2-config-volume-mounts" . | indent 8 }}
         {{- if .Values.st2.rbac.enabled }}
         - name: st2-rbac-roles-vol
           mountPath: /opt/stackstorm/rbac/roles/
@@ -1415,9 +1333,7 @@ spec:
             - key: datastore_crypto_key
               path: datastore_key.json
         {{- end }}
-        - name: st2-config-vol
-          configMap:
-            name: {{ .Release.Name }}-st2-config
+{{ include "st2-config-volume" . | indent 8 }}
         {{- if .Values.st2.rbac.enabled }}
         - name: st2-rbac-roles-vol
           configMap:
