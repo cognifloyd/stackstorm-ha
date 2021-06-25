@@ -22,7 +22,11 @@ data:
   post-start.sh: |
     #!/bin/bash
     {{- if or (eq . "st2actionrunner") (eq . "st2client") }}
+    mkdir -p /home/stanley/.ssh
+    cp -L /home/stanley/.ssh{-key-vol,}/stanley_rsa
     chown -R stanley:stanley /home/stanley/.ssh/
+    chmod 400 /home/stanley/.ssh/stanley_rsa
+    chmod 500 /home/stanley/.ssh
     {{- end }}
     {{- index $.Values . "postStartScript" | nindent 4 }}
 
