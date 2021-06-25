@@ -1203,7 +1203,7 @@ spec:
           subPath: st2.user.conf
         - name: st2-ssh-key-vol
           mountPath: /home/stanley/.ssh/
-          readOnly: true
+          #readOnly: true
         {{- if .Values.secrets.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
@@ -1248,7 +1248,9 @@ spec:
             - key: private_key
               path: stanley_rsa
               # 0400 file permission
-              mode: 256
+              #mode: 256
+              # 0600 file permission
+              mode: 384
         {{- if .Values.st2.packs.images }}
 {{- include "packs-volumes" . | indent 8 }}
         {{- end }}
@@ -1474,7 +1476,7 @@ spec:
           mountPath: /root/.st2/
         - name: st2-ssh-key-vol
           mountPath: /home/stanley/.ssh/
-          readOnly: true
+          #readOnly: true
         {{- if .Values.secrets.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
@@ -1539,7 +1541,9 @@ spec:
             - key: private_key
               path: stanley_rsa
               # 0400 file permission
-              mode: 256
+              #mode: 256
+              # 0600 file permission
+              mode: 384
         {{- if .Values.st2.packs.images }}
 {{- include "packs-volumes" . | indent 8 }}
         {{- end }}
