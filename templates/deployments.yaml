@@ -98,7 +98,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .Values.st2auth.resources | nindent 10 }}
@@ -218,7 +218,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .Values.st2api.resources | nindent 10 }}
@@ -326,7 +326,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .Values.st2stream.resources | nindent 10 }}
@@ -437,7 +437,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .Values.st2web.resources | nindent 10 }}
@@ -538,7 +538,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .Values.st2rulesengine.resources | nindent 10 }}
@@ -642,7 +642,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .Values.st2timersengine.resources | nindent 10 }}
@@ -743,7 +743,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .Values.st2workflowengine.resources | nindent 10 }}
@@ -851,7 +851,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .Values.st2scheduler.resources | nindent 10 }}
@@ -954,7 +954,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .Values.st2notifier.resources | nindent 10 }}
@@ -1088,7 +1088,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .resources | nindent 10 }}
@@ -1223,7 +1223,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         resources:
           {{- toYaml .Values.st2actionrunner.resources | nindent 10 }}
     {{- if .Values.st2actionrunner.serviceAccount.attach }}
@@ -1334,7 +1334,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         {{- end }}
         resources:
           {{- toYaml .Values.st2garbagecollector.resources | nindent 10 }}
@@ -1498,7 +1498,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         resources:
           requests:
             memory: "5Mi"
@@ -1629,7 +1629,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/post-start.sh"]
+              command: ["/bin/bash", "/post-start.sh"]
         volumes:
         - name: st2-post-start-script-vol
           configMap:
