@@ -175,7 +175,7 @@ spec:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
         {{- include "st2-config-volume-mounts" . | nindent 8 }}
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
           readOnly: true
@@ -194,7 +194,7 @@ spec:
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
       volumes:
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           secret:
             secretName: {{ .Release.Name }}-st2-datastore-crypto-key
@@ -464,7 +464,7 @@ spec:
     {{- end }}
       volumes:
         {{- include "st2-config-volume" . | nindent 8 }}
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           secret:
             secretName: {{ .Release.Name }}-st2-datastore-crypto-key
@@ -621,7 +621,7 @@ spec:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
         {{- include "st2-config-volume-mounts" . | nindent 8 }}
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
           readOnly: true
@@ -633,7 +633,7 @@ spec:
     {{- end }}
       volumes:
         {{- include "st2-config-volume" . | nindent 8 }}
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           secret:
             secretName: {{ .Release.Name }}-st2-datastore-crypto-key
@@ -711,7 +711,7 @@ spec:
             name: {{ .Release.Name }}-st2-urls
         volumeMounts:
         {{- include "st2-config-volume-mounts" . | nindent 8 }}
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
           readOnly: true
@@ -722,7 +722,7 @@ spec:
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
       volumes:
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           secret:
             secretName: {{ .Release.Name }}-st2-datastore-crypto-key
@@ -912,7 +912,7 @@ spec:
           mountPath: /opt/stackstorm/virtualenvs
           readOnly: true
         {{- end }}
-        {{- if $.Values.secrets.st2.datastore_crypto_key }}
+        {{- if $.Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
           readOnly: true
@@ -923,7 +923,7 @@ spec:
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" $ }}
     {{- end }}
       volumes:
-        {{- if $.Values.secrets.st2.datastore_crypto_key }}
+        {{- if $.Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           secret:
             secretName: {{ $.Release.Name }}-st2-datastore-crypto-key
@@ -1022,7 +1022,7 @@ spec:
         - name: st2-ssh-key-vol
           mountPath: /home/stanley/.ssh/
           readOnly: true
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
           readOnly: true
@@ -1041,7 +1041,7 @@ spec:
       serviceAccountName: {{ template "stackstorm-ha.serviceAccountName" . }}
     {{- end }}
       volumes:
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           secret:
             secretName: {{ .Release.Name }}-st2-datastore-crypto-key
@@ -1261,7 +1261,7 @@ spec:
         - name: st2-ssh-key-vol
           mountPath: /home/stanley/.ssh/
           readOnly: true
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
           readOnly: true
@@ -1283,7 +1283,7 @@ spec:
             memory: "5Mi"
             cpu: "5m"
       volumes:
-        {{- if .Values.secrets.st2.datastore_crypto_key }}
+        {{- if .Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           secret:
             secretName: {{ .Release.Name }}-st2-datastore-crypto-key
