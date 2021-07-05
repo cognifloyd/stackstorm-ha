@@ -17,6 +17,7 @@
 * Allow providing scripts in values for use in lifecycle postStart hooks of all deployments. (#206) (by @cognifloyd)
 * Fix permissions for /home/stanley/.ssh/stanley_rsa (using the postStart lifecycle hook) (#206) (by @cognifloyd)
 * New feature: Shared packs volumes `st2.packs.volumes` -- Instead of using `st2packs` images to install packs, allow using cluster-specific persistent volumes to store packs, virtualenvs, and (optionally) configs. This enables using `st2 pack install`. (#199) (by @cognifloyd)
+* Allow partitioning sensors using the hash_range strategy instead of one sensor per pod. (#TODO) (by @cognifloyd)
 
 ## v0.60.0
 * Switch st2 version to `v3.5dev` as a new latest development version (#187)

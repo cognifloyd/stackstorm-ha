@@ -540,6 +540,10 @@ st2sensorcontainer:
   # see: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
   postStartScript: ""
 
+st2sensorcontainer:
+  # replicas is only used if st2.packs.sensors is empty
+  replicas: 2
+
 # The st2client deployment/pod simplifies ad-hoc administration.
 # st2client is a special purpose actionrunner pod, but you can customize it separately
 st2client:
