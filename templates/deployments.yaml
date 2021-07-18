@@ -989,8 +989,10 @@ spec:
     {{- range $key, $val := . }}
       {{- $_ := set $sensor $key $val }}
     {{- end }}
+  {{- else if $use_hash_ranges }}
+    {{- $_ := set $sensor "name" . }}
   {{- end }}
-  {{- $name := print "st2sensorcontainer" (include "hyphenPrefix" ($use_packs_sensors | ternary ($sensor.name) (.))) }}
+  {{- $name := print "st2sensorcontainer" (include "hyphenPrefix" $sensor.name) }}
   {{/* define vars only needed if $.Values.st2sensorcontainer.deployments */}}
   {{- $max_hash := 4294967296 }}
   {{- $sensor_range_size := $use_hash_ranges | ternary (div (add1 $max_hash) $.Values.st2sensorcontainer.deployments) $max_hash }}
