@@ -982,6 +982,7 @@ spec:
     {{- end }}
 
 {{- $use_packs_sensors := not ($.Values.st2.packs.sensors | empty) }}
+{{- $use_hash_ranges := and (not $use_packs_sensors) (gt ($.Values.st2sensorcontainer.deployments|int) 1) }}
 {{- range ($use_packs_sensors | ternary ($.Values.st2.packs.sensors) (until ($.Values.st2sensorcontainer.deployments|int))) }}
   {{- $sensor := omit $.Values.st2sensorcontainer "name" "ref" "deployments" "postStartScript" }}
   {{- if $use_packs_sensors }}
@@ -992,9 +993,9 @@ spec:
   {{- $name := print "st2sensorcontainer" (include "hyphenPrefix" ($use_packs_sensors | ternary ($sensor.name) (.))) }}
   {{/* define vars only needed if $.Values.st2sensorcontainer.deployments */}}
   {{- $max_hash := 4294967296 }}
-  {{- $sensor_range_size := div (add1 $max_hash) $.Values.st2sensorcontainer.deployments }}
-  {{- $sensor_range_start := mul . $sensor_range_size }}
-  {{- $sensor_range_end := add $sensor_range_start $sensor_range_size -1 }}
+  {{- $sensor_range_size := $use_hash_ranges | ternary (div (add1 $max_hash) $.Values.st2sensorcontainer.deployments) $max_hash }}
+  {{- $sensor_range_start := $use_hash_ranges | ternary (mul . $sensor_range_size) 0 }}
+  {{- $sensor_range_end := $use_hash_ranges | ternary (add $sensor_range_start $sensor_range_size -1) $max_hash }}
   {{/* deal with integer math rounding errors */}}
   {{- $sensor_range_end := gt (add 10 $sensor_range_end) $max_hash | ternary $max_hash $sensor_range_end }}
   {{- $sensor_hash_ranges := $use_packs_sensors | ternary ("") (print $sensor_range_start ".." $sensor_range_end) }}
@@ -1018,9 +1019,8 @@ spec:
   # https://docs.stackstorm.com/reference/ha.html#st2sensorcontainer
   # It is possible to run st2sensorcontainer(s) in one of these modes:
   #   (1) run all sensors in one pod (1 deployment with 1 pod, the default); or
-  #   (2) by setting the number of st2sensorcontainer deployments.
+  #   (2) run multiple sensors per pod (2+ deployments with 1 pod each) using hash range partitions; or
   #   (3) run one sensor per pod using st2.packs.sensors.
-  # It is possible to run st2sensorcontainer in HA mode by running one process on each compute instance.
   # Each sensor node needs to be provided with proper partition information to share work with other sensor nodes
   # so that the same sensor does not run on different nodes. See: https://docs.stackstorm.com/reference/sensor_partitioning.html
   replicas: 1
@@ -1045,8 +1045,13 @@ spec:
         {{- else }}
         st2sensor/mode: all-sensors-in-one-pod
         {{- end }}
-        {{- if $sensor_hash_ranges }}
-        st2sensor/hash_ranges: {{ $sensor_hash_ranges | quote }}
+        {{- if $use_packs_sensors }}
+        st2sensor/mode: one-sensor-per-pod
+        {{- else if $use_hash_ranges }}
+        st2sensor/mode: multiple-sensors-per-pod
+        st2sensor/hash-ranges: {{ $sensor_hash_ranges | quote }}
+        {{- else }}
+        st2sensor/mode: all-sensors-in-one-pod
         {{- end }}
         {{- if $sensor.annotations }}
           {{- toYaml $sensor.annotations | nindent 8 }}
@@ -1060,7 +1065,7 @@ spec:
         {{- include "packs-pullSecrets" $ | nindent 6 }}
       {{- end }}
       initContainers:
-      {{- if $sensor_hash_ranges }}
+      {{- if $use_hash_ranges }}
       - name: {{ $name }}-init-config
         image: busybox:1.28
         volumeMounts:
@@ -1093,7 +1098,7 @@ spec:
         livenessProbe:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        {{- if or $use_packs_sensors $sensor_hash_ranges }}
+        {{- if or $use_packs_sensors $use_hash_ranges }}{{/* ie: when there is more than one sensor pod */}}
         command:
           - /opt/stackstorm/st2/bin/st2sensorcontainer
           - --config-file=/etc/st2/st2.conf
@@ -1102,7 +1107,7 @@ spec:
           {{- if $use_packs_sensors }}{{/* only in st2.packs.sensors[] */}}
           - --single-sensor-mode
           - --sensor-ref={{ required "You must define `ref` for everything in st2.packs.sensors. This assigns each sensor to a pod." $sensor.ref }}
-          {{- else if $sensor_hash_ranges }}{{/* only for st2sensorcontainer.deployments */}}
+          {{- else if $use_hash_ranges }}
           # injected by {{ $name }}-init-config
           - --config-file=/etc/st2/st2.sensorcontainer.conf
           {{- end }}
@@ -1112,7 +1117,7 @@ spec:
             name: {{ $.Release.Name }}-st2-urls
         volumeMounts:
         {{- include "st2-config-volume-mounts" $ | nindent 8 }}
-        {{- if $sensor_hash_ranges }}
+        {{- if $use_hash_ranges }}
         - name: st2-sensor-config-vol
           mountPath: /etc/st2/st2.sensorcontainer.conf
           subPath: st2.sensorcontainer.conf
@@ -1155,7 +1160,7 @@ spec:
               path: datastore_key.json
         {{- end }}
         {{- include "st2-config-volume" $ | nindent 8 }}
-        {{- if $sensor_hash_ranges }}
+        {{- if $use_hash_ranges }}
         - name: st2-sensor-config-vol
           emptyDir: # This is for a tiny file
             medium: Memory
