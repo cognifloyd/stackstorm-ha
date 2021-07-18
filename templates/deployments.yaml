@@ -981,26 +981,26 @@ spec:
       tolerations: {{- toYaml . | nindent 8 }}
     {{- end }}
 
+{{- $sensor_deployments_count := max 1 ($.Values.st2sensorcontainer.deployments|int) | int }}
 {{- $use_packs_sensors := not ($.Values.st2.packs.sensors | empty) }}
-{{- $use_hash_ranges := and (not $use_packs_sensors) (gt ($.Values.st2sensorcontainer.deployments|int) 1) }}
-{{- range ($use_packs_sensors | ternary ($.Values.st2.packs.sensors) (until ($.Values.st2sensorcontainer.deployments|int))) }}
+{{- $use_hash_ranges := and (not $use_packs_sensors) (gt $sensor_deployments_count 1) }}
+{{- range ($use_packs_sensors | ternary ($.Values.st2.packs.sensors) (until $sensor_deployments_count)) }}
   {{- $sensor := omit $.Values.st2sensorcontainer "name" "ref" "deployments" "postStartScript" }}
   {{- if $use_packs_sensors }}
-    {{- range $key, $val := . }}
+    {{- range $key, $val := . }}{{/* . is an entry in st2.packs.sensors */}}
       {{- $_ := set $sensor $key $val }}
     {{- end }}
   {{- else if $use_hash_ranges }}
-    {{- $_ := set $sensor "name" . }}
+    {{- $max_hash := 4294967296 }}
+    {{- $sensor_range_size := div (add1 $max_hash) $sensor_deployments_count }}
+    {{- $sensor_range_start := mul . $sensor_range_size }}
+    {{- $sensor_range_end := add $sensor_range_start $sensor_range_size -1 }}
+    {{/* deal with integer math rounding errors */}}
+    {{- $sensor_range_end := gt (add 10 $sensor_range_end) $max_hash | ternary $max_hash $sensor_range_end }}
+    {{- $_ := set $sensor "hash_ranges" (print $sensor_range_start ".." $sensor_range_end) }}
+    {{- $_ := set $sensor "name" (. | toString) }}{{/* . is the deployment number (starting from 0) */}}
   {{- end }}
   {{- $name := print "st2sensorcontainer" (include "hyphenPrefix" $sensor.name) }}
-  {{/* define vars only needed if $.Values.st2sensorcontainer.deployments */}}
-  {{- $max_hash := 4294967296 }}
-  {{- $sensor_range_size := $use_hash_ranges | ternary (div (add1 $max_hash) $.Values.st2sensorcontainer.deployments) $max_hash }}
-  {{- $sensor_range_start := $use_hash_ranges | ternary (mul . $sensor_range_size) 0 }}
-  {{- $sensor_range_end := $use_hash_ranges | ternary (add $sensor_range_start $sensor_range_size -1) $max_hash }}
-  {{/* deal with integer math rounding errors */}}
-  {{- $sensor_range_end := gt (add 10 $sensor_range_end) $max_hash | ternary $max_hash $sensor_range_end }}
-  {{- $sensor_hash_ranges := $use_packs_sensors | ternary ("") (print $sensor_range_start ".." $sensor_range_end) }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1051,7 +1051,7 @@ spec:
         st2sensor/mode: one-sensor-per-pod
         {{- else if $use_hash_ranges }}
         st2sensor/mode: multiple-sensors-per-pod
-        st2sensor/hash-ranges: {{ $sensor_hash_ranges | quote }}
+        st2sensor/hash-ranges: {{ $sensor.hash_ranges | quote }}
         {{- else }}
         st2sensor/mode: all-sensors-in-one-pod
         {{- end }}
@@ -1079,7 +1079,7 @@ spec:
           - |
               echo    '[sensorcontainer]' > /tmp/st2/st2.sensorcontainer.conf
               && echo 'sensor_node_name={{ $name }}' > /tmp/st2/st2.sensorcontainer.conf
-              && echo 'partition_provider={"name":"hash","hash_ranges:{{ $sensor_hash_ranges }}"}' > /tmp/st2/st2.sensorcontainer.conf
+              && echo 'partition_provider={"name":"hash","hash_ranges:{{ $sensor.hash_ranges }}"}' > /tmp/st2/st2.sensorcontainer.conf
               && echo 'single_sensor_mode=False' > /tmp/st2/st2.sensorcontainer.conf
       {{- end }}
       {{- include "init-containers-wait-for-db" $ | nindent 6 }}
