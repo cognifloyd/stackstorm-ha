@@ -19,6 +19,7 @@
 * Allow providing scripts in values for use in lifecycle postStart hooks of all deployments. (#206) (by @cognifloyd)
 * Add preRegisterContentCommand in an initContainer for register-content job to run last-minute content customizations (#213) (by @cognifloyd)
 * Minimize required sensor config by using default values from st2sensorcontainer for each sensor in st2.packs.sensors (#221) (by @cognifloyd)
+* Make the distinction between sensor modes: all-sensors-in-one-pod and one-sensor-per-pod (#222) (by @cognifloyd)
 
 ## v0.60.0
 * Switch st2 version to `v3.5dev` as a new latest development version (#187)
