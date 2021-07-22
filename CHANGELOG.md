@@ -23,6 +23,7 @@
 * Allow partitioning sensors using the hash_range strategy instead of one sensor per pod. (#218) (by @cognifloyd)
 * New feature: Shared packs volumes `st2.packs.volumes`. Allow using cluster-specific persistent volumes to store packs, virtualenvs, and (optionally) configs. This enables using `st2 pack install`. It even works with `st2packs` images in `st2.packs.images`. (#199) (by @cognifloyd)
 * Remove default/sample RBAC config files from default values because they cannot be removed by overriding the roles/mappings values. (#???) (by @cognifloyd)
+* Do not template rabbitmq secrets file unless rabbitmq subchart is enabled. (#???) (by @cognifloyd)
 
 ## v0.60.0
 * Switch st2 version to `v3.5dev` as a new latest development version (#187)
