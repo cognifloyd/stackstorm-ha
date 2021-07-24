@@ -556,7 +556,7 @@ spec:
         image: '{{ template "imageRepository" $ }}/st2actionrunner:{{ tpl ($.Values.jobs.image.tag | default ($.Values.st2actionrunner.image.tag | default $.Values.image.tag)) $ }}'
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
         command:
-        {{- with (required "Each entry in jobs.extra_hooks must include the 'command' to run." .command ) }}
+        {{- range (required "Each entry in jobs.extra_hooks must include the 'command' to run." .command) }}
           {{ tpl . $ | list | toYaml | indent 10 }}
         {{- end }}
         volumeMounts:
