@@ -1052,11 +1052,6 @@ spec:
         {{- end }}
         {{- if $use_packs_sensors }}
         st2sensor/mode: one-sensor-per-pod
-        {{- else }}
-        st2sensor/mode: all-sensors-in-one-pod
-        {{- end }}
-        {{- if $use_packs_sensors }}
-        st2sensor/mode: one-sensor-per-pod
         {{- else if $use_hash_ranges }}
         st2sensor/mode: multiple-sensors-per-pod
         st2sensor/hash-ranges: {{ $sensor.hash_ranges | quote }}
@@ -1087,9 +1082,9 @@ spec:
           - |
               cat <<EOT > /tmp/st2/st2.sensorcontainer.conf
               [sensorcontainer]
-              sensor_node_name={{ $name }}
-              partition_provider={"name":"hash","hash_ranges:{{ $sensor.hash_ranges }}"}
-              single_sensor_mode=False'
+              sensor_node_name = {{ $name }}
+              partition_provider = name:hash, hash_ranges:{{ $sensor.hash_ranges }}
+              single_sensor_mode = False
               EOT
       {{- end }}
       {{- include "init-containers-wait-for-db" $ | nindent 6 }}
