@@ -25,6 +25,7 @@
 * Remove default/sample RBAC config files from default values because they cannot be removed by overriding the roles/mappings values. (#???) (by @cognifloyd)
 * Do not template rabbitmq secrets file unless rabbitmq subchart is enabled. (#???) (by @cognifloyd)
 * Template the contents of st2.config and the values in st2chatops.env. This allows adding secrets defined elsewhere in values. (#???) (by @cognifloyd)
+* Automatically stringify st2.datastore_crypto_key and st2chatop.env values if needed. (#???) (by @cognifloyd)
 
 ## v0.60.0
 * Switch st2 version to `v3.5dev` as a new latest development version (#187)
