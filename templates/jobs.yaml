@@ -510,28 +510,28 @@ spec:
       {{- include "init-containers-wait-for-db" $ | nindent 6 }}
       {{- include "packs-initContainers" $ | nindent 6 }}
       - name: generate-st2client-config
-        image: '{{ template "imageRepository" . }}/st2actionrunner:{{ tpl (.Values.jobs.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: '{{ template "imageRepository" $ }}/st2actionrunner:{{ tpl ($.Values.jobs.image.tag | default ($.Values.st2actionrunner.image.tag | default $.Values.image.tag)) $ }}'
+        imagePullPolicy: {{ $.Values.image.pullPolicy }}
         envFrom:
         - configMapRef:
-            name: {{ .Release.Name }}-st2-urls
+            name: {{ $.Release.Name }}-st2-urls
         env:
-        {{- if .Values.jobs.api_key }}
+        {{- if $.Values.jobs.api_key }}
         - name: ST2_API_KEY
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-st2-auth
+              name: {{ $.Release.Name }}-st2-auth
               key: jobs_api_key
         {{- else }}
         - name: ST2_AUTH_USERNAME
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-st2-auth
+              name: {{ $.Release.Name }}-st2-auth
               key: username
         - name: ST2_AUTH_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-st2-auth
+              name: {{ $.Release.Name }}-st2-auth
               key: password
         {{- end }}
         volumeMounts:
@@ -544,7 +544,7 @@ spec:
           - |
             cat <<EOT > /root/.st2/config
             [credentials]
-            {{- if .Values.jobs.api_key }}
+            {{- if $.Values.jobs.api_key }}
             api_key = ${ST2_API_KEY}
             {{- else }}
             username = ${ST2_AUTH_USERNAME}
@@ -555,7 +555,7 @@ spec:
       - name: {{ $name }}
         image: '{{ template "imageRepository" $ }}/st2actionrunner:{{ tpl ($.Values.jobs.image.tag | default ($.Values.st2actionrunner.image.tag | default $.Values.image.tag)) $ }}'
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
-        command: {{- tpl (required "Each entry in jobs.extra_hooks must include the 'command' to run." .command | toYaml) . | nindent 10 }}
+        command: {{- tpl (required "Each entry in jobs.extra_hooks must include the 'command' to run." .command | toYaml) $ | nindent 10 }}
         volumeMounts:
         - name: st2client-config-vol
           mountPath: /root/.st2/
