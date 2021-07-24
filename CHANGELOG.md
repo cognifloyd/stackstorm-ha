@@ -26,6 +26,7 @@
 * Do not template rabbitmq secrets file unless rabbitmq subchart is enabled. (#???) (by @cognifloyd)
 * Template the contents of st2.config and the values in st2chatops.env. This allows adding secrets defined elsewhere in values. (#???) (by @cognifloyd)
 * Automatically stringify st2.datastore_crypto_key and st2chatop.env values if needed. (#???) (by @cognifloyd)
+* Fix a bug when datastore cryto keys are not able to read by the rules engine. ``datastore_crypto_key`` volume is now mounted on the ``st2rulesengine`` pods (#223) (by @moti1992)
 
 ## v0.60.0
 * Switch st2 version to `v3.5dev` as a new latest development version (#187)
