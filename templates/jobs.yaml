@@ -555,6 +555,9 @@ spec:
       - name: {{ $name }}
         image: '{{ template "imageRepository" $ }}/st2actionrunner:{{ tpl ($.Values.jobs.image.tag | default ($.Values.st2actionrunner.image.tag | default $.Values.image.tag)) $ }}'
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
+        envFrom:
+        - configMapRef:
+            name: {{ $.Release.Name }}-st2-urls
         command:
         {{- range (required "Each entry in jobs.extra_hooks must include the 'command' to run." .command) }}
           {{- tpl . $ | list | toYaml | nindent 10 }}
