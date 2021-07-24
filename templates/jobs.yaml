@@ -550,7 +550,7 @@ spec:
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
         command:
         {{- range (required "Each entry in jobs.extra_hooks must include the 'command' to run." .command) }}
-          {{ tpl . $ | list | toYaml | indent 10 }}
+          {{- tpl . $ | list | toYaml | nindent 10 }}
         {{- end }}
         volumeMounts:
         - name: st2client-config-vol
