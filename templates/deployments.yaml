@@ -418,7 +418,8 @@ spec:
 #          initialDelaySeconds: 3
         {{- if .Values.st2web.use_https }}
         env:
-          ST2WEB_HTTPS: "1"
+        - name: ST2WEB_HTTPS
+          value: "1"
         {{- end }}
         envFrom:
         - configMapRef:
