@@ -1136,6 +1136,10 @@ spec:
           mountPath: /etc/st2/keys
           readOnly: true
         {{- end }}
+        {{- range $sensor.extra_volumes }}
+        - name: {{ required "Each volume must have a 'name' in $sensor.extra_volumes" .name }}
+          {{- tpl (required "Each volume must have a 'mount' definition in $sensor.extra_volumes" .mount | toYaml) $ | nindent 10 }}
+        {{- end }}
         {{- if $.Values.st2sensorcontainer.postStartScript }}
         - name: st2-post-start-script-vol
           mountPath: /post-start.sh
@@ -1166,6 +1170,10 @@ spec:
             medium: Memory
         {{- end }}
         {{- include "packs-volumes" $ | nindent 8 }}
+        {{- range $sensor.extra_volumes }}
+        - name: {{ required "Each volume must have a 'name' in $sensor.extra_volumes" .name }}
+          {{- tpl (required "Each volume must have a 'volume' definition in $sensor.extra_volumes" .volume | toYaml) $ | nindent 10 }}
+        {{- end }}
         {{- if $.Values.st2sensorcontainer.postStartScript }}
         - name: st2-post-start-script-vol
           configMap:
@@ -1269,6 +1277,10 @@ spec:
         {{- if .Values.st2.packs.volumes.enabled }}
           {{- include "pack-configs-volume-mount" . | nindent 8 }}
         {{- end }}
+        {{- range .Values.st2actionrunner.extra_volumes }}
+        - name: {{ required "Each volume must have a 'name' in st2actionrunner.extra_volumes" .name }}
+          {{- tpl (required "Each volume must have a 'mount' definition in st2actionrunner.extra_volumes" .mount | toYaml) $ | nindent 10 }}
+        {{- end }}
         - name: st2-post-start-script-vol
           mountPath: /post-start.sh
           subPath: post-start.sh
@@ -1302,6 +1314,10 @@ spec:
         {{- include "packs-volumes" . | nindent 8 }}
         {{- if .Values.st2.packs.volumes.enabled }}
           {{- include "pack-configs-volume" . | nindent 8 }}
+        {{- end }}
+        {{- range .Values.st2actionrunner.extra_volumes }}
+        - name: {{ required "Each volume must have a 'name' in st2actionrunner.extra_volumes" .name }}
+          {{- tpl (required "Each volume must have a 'volume' definition in st2actionrunner.extra_volumes" .volume | toYaml) $ | nindent 10 }}
         {{- end }}
         - name: st2-post-start-script-vol
           configMap:
@@ -1530,6 +1546,10 @@ spec:
         {{- end }}
         {{- include "packs-volume-mounts" . | nindent 8 }}
         {{- include "pack-configs-volume-mount" . | nindent 8 }}
+        {{- range .Values.st2client.extra_volumes }}
+        - name: {{ required "Each volume must have a 'name' in st2client.extra_volumes" .name }}
+          {{- tpl (required "Each volume must have a 'mount' definition in st2client.extra_volumes" .mount | toYaml) $ | nindent 10 }}
+        {{- end }}
         - name: st2-post-start-script-vol
           mountPath: /post-start.sh
           subPath: post-start.sh
@@ -1579,6 +1599,10 @@ spec:
               mode: 256
         {{- include "packs-volumes" . | nindent 8 }}
         {{- include "pack-configs-volume" . | nindent 8 }}
+        {{- range .Values.st2client.extra_volumes }}
+        - name: {{ required "Each volume must have a 'name' in st2client.extra_volumes" .name }}
+          {{- tpl (required "Each volume must have a 'volume' definition in st2client.extra_volumes" .volume | toYaml) $ | nindent 10 }}
+        {{- end }}
         - name: st2-post-start-script-vol
           configMap:
             name: {{ .Release.Name }}-st2client-post-start-script
