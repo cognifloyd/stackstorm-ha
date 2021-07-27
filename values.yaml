@@ -894,3 +894,21 @@ external-dns:
   aws:
     zoneType: "public"
   domainFilters: []
+
+##
+## Ad-hoc custom secrets
+##
+## To add custom secrets, each secret in this list must:
+##   - include 'name', 'description', and 'data' (data is a dictionary like any k8s secret).
+##   - base64 encode each of the secret values.
+## To facilitate base64 encoding your secrets, helm templating is supported for each value in 'data'.
+##
+## In Kubernetes, the secretName will be prefixed with "{{ .Release.Name }}".
+## So, use something like this in extra_volumes entries for st2actionrunner or other pods (above):
+##   secretName: "{{ .Release.Name }}-acme-secret"
+adhoc_secrets: []
+  # For example:
+  # - name: acme-secret
+  #   description: Secret for ACME service
+  #   data:
+  #     secret_thing: "{{ .Values.acme.secret_thing | b64enc }}"
