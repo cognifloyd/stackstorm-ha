@@ -18,6 +18,7 @@
 * Make system_user configurable when using custom st2actionrunner images that do not provide stanley (#220) (by @cognifloyd)
 * Allow providing scripts in values for use in lifecycle postStart hooks of all deployments. (#206) (by @cognifloyd)
 * Add preRegisterContentCommand in an initContainer for register-content job to run last-minute content customizations (#213) (by @cognifloyd)
+* Fix a bug when datastore cryto keys are not able to read by the rules engine. ``datastore_crypto_key`` volume is now mounted on the ``st2rulesengine`` pods (#223) (by @moti1992)
 * Minimize required sensor config by using default values from st2sensorcontainer for each sensor in st2.packs.sensors (#221) (by @cognifloyd)
 * Make the distinction between sensor modes: all-sensors-in-one-pod and one-sensor-per-pod (#222) (by @cognifloyd)
 * Allow partitioning sensors using the hash_range strategy instead of one sensor per pod. (#218) (by @cognifloyd)
@@ -25,8 +26,8 @@
 * Remove default/sample RBAC config files from default values because they cannot be removed by overriding the roles/mappings values. (#???) (by @cognifloyd)
 * Do not template rabbitmq secrets file unless rabbitmq subchart is enabled. (#???) (by @cognifloyd)
 * Template the contents of st2.config and the values in st2chatops.env. This allows adding secrets defined elsewhere in values. (#???) (by @cognifloyd)
-* Automatically stringify st2.datastore_crypto_key and st2chatop.env values if needed. (#???) (by @cognifloyd)
 * Fix a bug when datastore cryto keys are not able to read by the rules engine. ``datastore_crypto_key`` volume is now mounted on the ``st2rulesengine`` pods (#223) (by @moti1992)
+* Use "--convert" when loading keys into datastore (in key-load Job) so that `st2.keyvalue[].value` can be any basic JSON data type. (#???) (by @cognifloyd)
 
 ## v0.60.0
 * Switch st2 version to `v3.5dev` as a new latest development version (#187)
