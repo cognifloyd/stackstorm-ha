@@ -292,6 +292,7 @@ spec:
           - st2
           - key
           - load
+          - "--covert"  # Convert non-string types (hash, array, boolean, int, float) to a JSON string before loading
           - /etc/st2/st2kv.yaml
         envFrom:
         - configMapRef:

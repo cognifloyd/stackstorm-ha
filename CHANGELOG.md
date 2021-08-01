@@ -20,6 +20,7 @@
 * Add preRegisterContentCommand in an initContainer for register-content job to run last-minute content customizations (#213) (by @cognifloyd)
 * Fix a bug when datastore cryto keys are not able to read by the rules engine. ``datastore_crypto_key`` volume is now mounted on the ``st2rulesengine`` pods (#223) (by @moti1992)
 * Minimize required sensor config by using default values from st2sensorcontainer for each sensor in st2.packs.sensors (#221) (by @cognifloyd)
+* Use "--convert" when loading keys into datastore (in key-load Job) so that `st2.keyvalue[].value` can be any basic JSON data type. (#???) (by @cognifloyd)
 
 ## v0.60.0
 * Switch st2 version to `v3.5dev` as a new latest development version (#187)
