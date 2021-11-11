@@ -508,24 +508,11 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ $.Release.Name }}-st2-urls
-        env:
-        {{- if $.Values.jobs.api_key }}
-        - name: ST2_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-st2-auth
-              key: jobs_api_key
-        {{- else }}
-        - name: ST2_AUTH_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-st2-auth
-              key: username
-        - name: ST2_AUTH_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-st2-auth
-              key: password
+        - secretRef:
+            name: {{ .Release.Name }}-st2-auth
+        {{- range .Values.jobs.envFromSecrets }}
+        - secretRef:
+            name: {{ . }}
         {{- end }}
         volumeMounts:
         - name: st2client-config-vol
@@ -537,12 +524,7 @@ spec:
           - |
             cat <<EOT > /root/.st2/config
             [credentials]
-            {{- if $.Values.jobs.api_key }}
-            api_key = ${ST2_API_KEY}
-            {{- else }}
-            username = ${ST2_AUTH_USERNAME}
-            password = ${ST2_AUTH_PASSWORD}
-            {{- end }}
+            {{- tpl .Values.jobs.st2clientConfig . | nindent 12 }}
             EOT
       containers:
       - name: {{ $name }}
@@ -551,6 +533,10 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ $.Release.Name }}-st2-urls
+        {{- range .Values.jobs.envFromSecrets }}
+        - secretRef:
+            name: {{ . }}
+        {{- end }}
         command:
         {{- range (required "Each entry in jobs.extra_hooks must include the 'command' to run." .command) }}
           {{- tpl . $ | list | toYaml | nindent 10 }}
