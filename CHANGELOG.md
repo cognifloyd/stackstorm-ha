@@ -16,6 +16,7 @@
 * Allow partitioning sensors using the hash_range strategy instead of one sensor per pod. (#218) (by @cognifloyd)
 * Advanced Feature: Allow `st2web` to serve HTTPS when the ssl certs are provided via `st2web.extra_volumes`. To enable this, add `ST2WEB_HTTPS: "1"` to `st2web.env` in your values file. (#264) (by @cognifloyd)
 * Advanced Feature: Add extra Helm hook Jobs. This minimizes the boilerplate required to run stackstorm workflows at various helm hook stages: post-install, pre-upgrade, post-upgrade. (#265) (by @cognifloyd)
+* Auto-generate `datastore_crypto_key` on install if not provided. This way all HA installs will have a datastore_crypto_key configured. (#266) (by @cognifloyd)
 
 ## v0.70.0
 * New feature: Shared packs volumes `st2.packs.volumes`. Allow using cluster-specific persistent volumes to store packs, virtualenvs, and (optionally) configs. This enables using `st2 pack install`. It even works with `st2packs` images in `st2.packs.images`. (#199) (by @cognifloyd)
