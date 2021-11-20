@@ -59,7 +59,7 @@ spec:
       {{- include "init-containers-wait-for-mq" . | nindent 6 }}
       # Sidecar container for generating .htpasswd with st2 username & password pair and sharing produced file with the main st2auth container
       - name: generate-htpasswd
-        image: '{{ template "imageRepository" . }}/st2auth:{{ tpl (.Values.st2auth.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2auth:{{ tpl (.Values.st2auth.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         envFrom:
         - secretRef:
@@ -73,7 +73,7 @@ spec:
           - printf "${ST2_AUTH_USERNAME}:$(openssl passwd -apr1 "${ST2_AUTH_PASSWORD}")\n" > /tmp/st2/htpasswd
       containers:
       - name: st2auth
-        image: '{{ template "imageRepository" . }}/st2auth:{{ tpl (.Values.st2auth.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2auth:{{ tpl (.Values.st2auth.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 9100
@@ -189,7 +189,7 @@ spec:
       {{- end }}
       containers:
       - name: st2api
-        image: '{{ template "imageRepository" . }}/st2api:{{ tpl (.Values.st2api.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2api:{{ tpl (.Values.st2api.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 9101
@@ -312,7 +312,7 @@ spec:
       {{- include "init-containers-wait-for-mq" . | nindent 6 }}
       containers:
       - name: st2stream
-        image: '{{ template "imageRepository" . }}/st2stream:{{ tpl (.Values.st2stream.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2stream:{{ tpl (.Values.st2stream.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 9102
@@ -409,7 +409,7 @@ spec:
       {{- end }}
       containers:
       - name: st2web
-        image: '{{ template "imageRepository" . }}/st2web:{{ tpl (.Values.st2web.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2web:{{ tpl (.Values.st2web.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ eq (get .Values.st2web.env "ST2WEB_HTTPS" | toString) "1" | ternary 443 80 }}
@@ -552,7 +552,7 @@ spec:
       {{- include "init-containers-wait-for-mq" . | nindent 6 }}
       containers:
       - name: st2rulesengine
-        image: '{{ template "imageRepository" . }}/st2rulesengine:{{ tpl (.Values.st2rulesengine.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2rulesengine:{{ tpl (.Values.st2rulesengine.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
@@ -666,7 +666,7 @@ spec:
       {{- include "init-containers-wait-for-mq" . | nindent 6 }}
       containers:
       - name: st2timersengine
-        image: '{{ template "imageRepository" . }}/st2timersengine:{{ tpl (.Values.st2timersengine.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2timersengine:{{ tpl (.Values.st2timersengine.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
@@ -767,7 +767,7 @@ spec:
       {{- include "init-containers-wait-for-mq" . | nindent 6 }}
       containers:
       - name: st2workflowengine
-        image: '{{ template "imageRepository" . }}/st2workflowengine:{{ tpl (.Values.st2workflowengine.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2workflowengine:{{ tpl (.Values.st2workflowengine.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
@@ -888,7 +888,7 @@ spec:
       {{- include "init-containers-wait-for-mq" . | nindent 6 }}
       containers:
       - name: st2scheduler
-        image: '{{ template "imageRepository" . }}/st2scheduler:{{ tpl (.Values.st2scheduler.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2scheduler:{{ tpl (.Values.st2scheduler.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
@@ -1001,7 +1001,7 @@ spec:
       {{- include "init-containers-wait-for-mq" . | nindent 6 }}
       containers:
       - name: st2notifier
-        image: '{{ template "imageRepository" . }}/st2notifier:{{ tpl (.Values.st2notifier.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2notifier:{{ tpl (.Values.st2notifier.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
@@ -1128,7 +1128,7 @@ spec:
       {{- end }}
       containers:
       - name: {{ $name }}
-        image: '{{ template "imageRepository" $ }}/st2sensorcontainer:{{ tpl ($sensor.image.tag | default $.Values.image.tag) $ }}'
+        image: '{{ template "stackstorm-ha.imageRepository" $ }}/st2sensorcontainer:{{ tpl ($sensor.image.tag | default $.Values.image.tag) $ }}'
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
         {{- with $sensor.readinessProbe }}
         # Probe to check if app is running. Failure will lead to a pod restart.
@@ -1284,7 +1284,7 @@ spec:
       {{- end }}
       containers:
       - name: st2actionrunner
-        image: '{{ template "imageRepository" . }}/st2actionrunner:{{ tpl (.Values.st2actionrunner.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2actionrunner:{{ tpl (.Values.st2actionrunner.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
@@ -1423,7 +1423,7 @@ spec:
       {{- include "init-containers-wait-for-mq" . | nindent 6 }}
       containers:
       - name: st2garbagecollector
-        image: '{{ template "imageRepository" . }}/st2garbagecollector:{{ tpl (.Values.st2garbagecollector.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2garbagecollector:{{ tpl (.Values.st2garbagecollector.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
@@ -1530,7 +1530,7 @@ spec:
       {{- end }}
       # Sidecar container for generating st2client config with st2 username & password pair and sharing produced file with the main container
       - name: generate-st2client-config
-        image: '{{ template "imageRepository" . }}/st2actionrunner:{{ tpl (.Values.st2client.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2actionrunner:{{ tpl (.Values.st2client.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         envFrom:
         - configMapRef:
@@ -1554,7 +1554,7 @@ spec:
             EOT
       containers:
       - name: st2client
-        image: '{{ template "imageRepository" . }}/st2actionrunner:{{ tpl (.Values.st2client.image.tag | default .Values.image.tag) . }}'
+        image: '{{ template "stackstorm-ha.imageRepository" . }}/st2actionrunner:{{ tpl (.Values.st2client.image.tag | default .Values.image.tag) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: ST2CLIENT
