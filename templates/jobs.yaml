@@ -486,6 +486,9 @@ metadata:
     helm.sh/hook: {{ required "Each entry in jobs.extra_hooks must include 'hook' (the helm.sh/hook value)" .hook }}
     helm.sh/hook-delete-policy: before-hook-creation
     helm.sh/hook-weight: {{ .hook_weight | default 10 | toString | quote }}
+  {{- if $.Values.jobs.annotations }}
+    {{- toYaml $.Values.jobs.annotations | nindent 4 }}
+  {{- end }}
 spec:
   template:
     metadata:
