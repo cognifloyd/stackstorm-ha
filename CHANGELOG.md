@@ -18,6 +18,7 @@
 * Custom annotations now apply to deployments and jobs, not just pods. (#270) (by @cognifloyd)
 * BREAKING CHANGE: Auto-generate `datastore_crypto_key` on install if not provided. This way all HA installs will have a datastore_crypto_key configured. This is only a breaking change for installations that do not want a `datastore_crypto_key`. To disable set `datastore_crypto_key` to `disable` instead of setting it to `""`, `null`, or leaving it unset. (#266) (by @cognifloyd)
 * Advanced Feature: Make securityContext (on Deployments/Jobs) and podSecurityContext (on Pods) configurable. This allows dropping all capabilities, for example. You can override the securityContext for `st2actionrunner`, `st2sensorcontainer`, and `st2client` if your actions or sensors need, for example, additional capabilites that the rest of StackStorm does not need. (#271) (by @cognifloyd)
+* Prefix template helpers with chart name and format helper comments as template comments. (#272) (by @cognifloyd)
 
 ## v0.70.0
 * New feature: Shared packs volumes `st2.packs.volumes`. Allow using cluster-specific persistent volumes to store packs, virtualenvs, and (optionally) configs. This enables using `st2 pack install`. It even works with `st2packs` images in `st2.packs.images`. (#199) (by @cognifloyd)
