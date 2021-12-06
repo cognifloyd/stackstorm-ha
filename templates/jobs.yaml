@@ -557,7 +557,7 @@ spec:
         image: '{{ template "stackstorm-ha.imageRepository" $ }}/st2actionrunner:{{ tpl ($.Values.jobs.image.tag | default ($.Values.st2actionrunner.image.tag | default $.Values.image.tag)) $ }}'
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
         {{- with $.Values.securityContext }}
-        securityContext: {{- toYaml . | nindent 8 }}
+        securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         envFrom:
         - configMapRef:
@@ -585,7 +585,7 @@ spec:
         image: '{{ template "stackstorm-ha.imageRepository" $ }}/st2actionrunner:{{ tpl ($.Values.jobs.image.tag | default ($.Values.st2actionrunner.image.tag | default $.Values.image.tag)) $ }}'
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
         {{- with $.Values.securityContext }}
-        securityContext: {{- toYaml . | nindent 8 }}
+        securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         envFrom:
         - configMapRef:
