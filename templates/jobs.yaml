@@ -46,7 +46,7 @@ spec:
         image: '{{ template "stackstorm-ha.imageRepository" . }}/st2actionrunner:{{ tpl (.Values.jobs.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- with .Values.securityContext }}
-        securityContext: {{- toYaml . | nindent 8 }}
+        securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         command:
           - st2-apply-rbac-definitions
@@ -154,7 +154,7 @@ spec:
       - name: wait-for-api
         image: busybox:1.28
         {{- with .Values.securityContext }}
-        securityContext: {{- toYaml . | nindent 8 }}
+        securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         command:
           - 'sh'
@@ -168,7 +168,7 @@ spec:
         image: '{{ template "stackstorm-ha.imageRepository" . }}/st2actionrunner:{{ tpl (.Values.jobs.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- with .Values.securityContext }}
-        securityContext: {{- toYaml . | nindent 8 }}
+        securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         envFrom:
         - configMapRef:
@@ -195,7 +195,7 @@ spec:
         image: '{{ template "stackstorm-ha.imageRepository" . }}/st2actionrunner:{{ tpl (.Values.jobs.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- with .Values.securityContext }}
-        securityContext: {{- toYaml . | nindent 8 }}
+        securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         command:
           - st2
@@ -298,7 +298,7 @@ spec:
         image: '{{ template "stackstorm-ha.imageRepository" . }}/st2actionrunner:{{ tpl (.Values.jobs.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- with .Values.securityContext }}
-        securityContext: {{- toYaml . | nindent 8 }}
+        securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         envFrom:
         - configMapRef:
@@ -325,7 +325,7 @@ spec:
         image: '{{ template "stackstorm-ha.imageRepository" . }}/st2actionrunner:{{ tpl (.Values.jobs.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- with .Values.securityContext }}
-        securityContext: {{- toYaml . | nindent 8 }}
+        securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         command:
           - st2
@@ -435,7 +435,7 @@ spec:
         image: '{{ template "stackstorm-ha.imageRepository" . }}/st2actionrunner:{{ tpl (.Values.jobs.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- with .Values.securityContext }}
-        securityContext: {{- toYaml . | nindent 8 }}
+        securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         command: {{- toYaml $.Values.jobs.preRegisterContentCommand | nindent 8 }}
         volumeMounts:
@@ -454,7 +454,7 @@ spec:
         image: '{{ template "stackstorm-ha.imageRepository" . }}/st2actionrunner:{{ tpl (.Values.jobs.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- with .Values.securityContext }}
-        securityContext: {{- toYaml . | nindent 8 }}
+        securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         command:
           - st2-register-content
