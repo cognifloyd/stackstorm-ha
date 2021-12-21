@@ -1,6 +1,7 @@
 # Changelog
 
 ## In Development
+* New feature: Add `extra_volumes` to all python-based st2 deployments. This can facilitate changing log levels by loading logging conf file(s) from a custom ConfigMap. (#276) (by @cognifloyd)
 
 ## v0.80.0
 * Switch st2 to `v3.6` as a new default stable version (#274)
